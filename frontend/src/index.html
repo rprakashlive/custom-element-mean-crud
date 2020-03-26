@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CustomElementV1</title>
+  <!-- <base href="/"> -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+</head>
+<body>
+  <label for="fname">Enter the text : </label><br>
+  <input class="form-control col-4" type="text" id="fname" name="fname" ><br>
+  <button class="btn btn-success" id="btnProceed">Proceed</button>
+  <app-product></app-product>
+  <!-- <app-root></app-root> -->
+  <label id="submitResult"></label><br>
+  <script>
+     window.addEventListener('load', () => {
+      const appForm = document.querySelector('app-product');
+      console.log("appForm",appForm);
+      const btnAttr = document.getElementById('btnProceed');
+      btnAttr.addEventListener('click', (event) => {
+       appForm.setAttribute('name', document.getElementById("fname").value);
+     });
+     appForm.addEventListener('display', (event) => {
+        document.getElementById('submitResult').textContent = event.detail;
+      });
+     });
+  </script>
+</body>
+</html>

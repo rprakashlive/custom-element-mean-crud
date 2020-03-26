@@ -1,0 +1,11 @@
+<p>
+    <!-- Custom Angular Element -->
+  </p>
+  <div class="col-12">
+  <label *ngIf="name">Text you entered : {{ name }}</label>
+  </div>
+ 
+<p *ngIf="newData">
+<input type="text" class="form-control" name="newFormData"  [(ngModel)]="product.desc">
+<button (click)="addProduct(product)">Add</button>
+</p>
