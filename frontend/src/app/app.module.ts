@@ -12,12 +12,18 @@ import { AppComponent } from './app.component';
 import { AngularCustomElementsBridge } from './angular-elements-bridge';
 import { CustomElementsWrapper } from './custom-elements-wrapper';
 import { ProductComponent } from './product/product.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { PersonalDetailComponent } from './user/personal-detail/personal-detail.component';
+import { ContactDetailComponent } from './user/contact-detail/contact-detail.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductComponent
+    ProductComponent,
+    ProductDetailComponent,
+    PersonalDetailComponent,
+    ContactDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,7 @@ import { ProductComponent } from './product/product.component';
   ],
   providers: [],
   bootstrap: [],
-  entryComponents: [ProductComponent]
+  entryComponents: [ProductComponent, PersonalDetailComponent, ContactDetailComponent]
 })
 export class AppModule {
   constructor(private injector: Injector) {}
@@ -62,5 +68,17 @@ export class AppModule {
   ngDoBootstrap() {
     const el = createCustomElement(ProductComponent, { injector: this.injector });
     customElements.define('app-product', el as any);
+
+    // const el2 = createCustomElement(ProductDetailComponent, { injector: this.injector });
+    // customElements.define('app-product-detail', el2 as any);
+
+    const el3 = createCustomElement(PersonalDetailComponent, { injector: this.injector });
+    customElements.define('app-personal-detail', el3 as any);
+
+    const el4 = createCustomElement(ContactDetailComponent, { injector: this.injector });
+    customElements.define('app-contact-detail', el4 as any);
+    
    }
+
+
  }

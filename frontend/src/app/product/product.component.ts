@@ -6,8 +6,7 @@ import { ProductService } from '../services/product.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom
+  styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
 
@@ -28,6 +27,7 @@ export class ProductComponent implements OnInit {
     this.product.name = data.toLowerCase();
       this.productService.getProducts({name : this.product.name}).subscribe(result => {
         if (result.data && result.data.length > 0) {
+          this.newData = false;
           this.display.emit(result.data[0].desc);     
         } else {
           this.display.emit('Sorry, No match found'); 
@@ -84,7 +84,7 @@ addProduct(productData){
     this.productService.addProduct(obj).subscribe(result => {
       if (result  && result.data) {
         window.alert("success");
-        this.display.emit(result.data.name);
+        this.display.emit(result.data.desc);
       }
     }, error => {
       window.alert("error");

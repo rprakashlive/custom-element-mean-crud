@@ -1,0 +1,29 @@
+<div class="col-12">
+    Personal Details
+    <div class="col-8 mt-1">
+    <input type="text" placeholder="Name" class="form-control" name="name" [(ngModel)]="user.name" (blur)="submitModalData(user)">
+    </div>
+    <div class="col-8 mt-2">
+    <input type="text" placeholder="Address" class="form-control" name="addr" [(ngModel)]="user.address" (blur)="submitModalData(user)">
+    </div>
+</div>
+
+
+
+<div>
+  <button class="btn btn-md" (click)="openModal()"></button>
+  <modal #myModal >
+      <modal-header>
+          <h1>User Details</h1>
+      </modal-header>
+      <modal-content>       
+        <p>Name : {{user.name}}</p>
+        <p>Address : {{user.address}}</p>
+        <p>Email : {{user.email}}</p>
+        <p>Mobile : {{user.phone}}</p>
+      </modal-content>
+      <modal-footer>
+          <button class="btn btn-primary" (click)="closeModal()">Close</button>
+      </modal-footer>
+  </modal>
+</div>

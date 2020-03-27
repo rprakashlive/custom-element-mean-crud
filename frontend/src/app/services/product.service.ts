@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
+  private currentUserObj = new BehaviorSubject({});
   constructor(private http: HttpClient) { }
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'
     })
   };
+
+  getCurrentUserObj(): Observable<any> {
+    return this.currentUserObj.asObservable();
+  }
+
+  getCurrentUserValue(): any {
+    return this.currentUserObj.getValue();
+  }
+
+  setCurrentUserObj(val) {
+    this.currentUserObj.next(val);
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
