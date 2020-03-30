@@ -1,5 +1,5 @@
 import {OnInit, Component, ViewChild, EventEmitter, Input, Output, ElementRef, ViewEncapsulation, SimpleChanges } from '@angular/core';
-import { ProductService } from '../../services/product.service';
+import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ModalManager } from 'ngb-modal';
 
@@ -18,10 +18,10 @@ export class PersonalDetailComponent implements OnInit {
   };
   private modalRef;
 
-  constructor(private modalService: ModalManager, private productService: ProductService) { }
+  constructor(private modalService: ModalManager, private userService: UserService) { }
   private subscription: Subscription
   ngOnInit() {
-    this.subscription = this.productService.getCurrentUserObj().subscribe(value => {
+    this.subscription = this.userService.getCurrentUserObj().subscribe(value => {
       this.user = value;
       console.log("subscribe",this.user);
     });
@@ -30,7 +30,7 @@ export class PersonalDetailComponent implements OnInit {
   submitModalData(data) {
     this.user['name'] = data['name'];
     this.user['address'] = data['address'];
-    this.productService.setCurrentUserObj(this.user);
+    this.userService.setCurrentUserObj(this.user);
   }
  
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,6 +46,15 @@ export class PersonalDetailComponent implements OnInit {
 
 addUserDetails(user) {
  console.log("initiated", user);
+
+this.userService.addUser(user).subscribe(result => {
+  if (result  && result.data) {
+     window.alert("success");
+    this.user_display.emit(user);
+  }
+}, error => {
+  window.alert("error");
+});
 }
 
 openModal(){

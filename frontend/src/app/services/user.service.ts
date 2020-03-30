@@ -9,8 +9,10 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  // private currentUserObj = new BehaviorSubject({});
+export class UserService {
+
+   private currentUserObj = new BehaviorSubject({});
+
   constructor(private http: HttpClient) { }
   httpOptions = {
     headers: new HttpHeaders({
@@ -18,17 +20,19 @@ export class ProductService {
     })
   };
 
-  // getCurrentUserObj(): Observable<any> {
-  //   return this.currentUserObj.asObservable();
-  // }
+  getCurrentUserObj(): Observable<any> {
+    return this.currentUserObj.asObservable();
+  }
 
-  // getCurrentUserValue(): any {
-  //   return this.currentUserObj.getValue();
-  // }
+  getCurrentUserValue(): any {
+    return this.currentUserObj.getValue();
+  }
 
-  // setCurrentUserObj(val) {
-  //   this.currentUserObj.next(val);
-  // }
+  setCurrentUserObj(val) {
+    this.currentUserObj.next(val);
+  } 
+
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -49,16 +53,17 @@ export class ProductService {
     const query_params = new HttpParams({fromObject: data});
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.get(environment.apiUrl + '/products', { params : query_params, headers: headers })
+    return this.http.get(environment.apiUrl + '/users', { params : query_params, headers: headers })
   }
 
-  addProduct (data): Observable<any> {
+  addUser (data): Observable<any> {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<any>(environment.apiUrl + '/products/create', JSON.stringify(data), this.httpOptions).pipe(
+    return this.http.post<any>(environment.apiUrl + '/users/create', JSON.stringify(data), this.httpOptions).pipe(
       tap((data)),
       catchError(this.handleError)
     );
   }
+
 
 }

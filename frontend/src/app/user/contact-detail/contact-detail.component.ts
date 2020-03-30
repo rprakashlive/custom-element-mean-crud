@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';
+import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -12,11 +12,11 @@ export class ContactDetailComponent implements OnInit {
     email : '',
     phone : ''
   };
-  constructor(private productService: ProductService) { }
+  constructor(private userService: UserService) { }
   private subscription: Subscription  
  
   ngOnInit() {
-    this.subscription = this.productService.getCurrentUserObj().subscribe(value => {
+    this.subscription = this.userService.getCurrentUserObj().subscribe(value => {
       this.user = value;
       console.log("subscribe",this.user);
     });
@@ -25,6 +25,6 @@ export class ContactDetailComponent implements OnInit {
   submitModalData(data) {
     this.user['email'] = data['email'];
     this.user['phone'] = data['phone'];
-    this.productService.setCurrentUserObj(this.user);
+    this.userService.setCurrentUserObj(this.user);
   }
 } 

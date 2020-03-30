@@ -53,6 +53,8 @@ app.options('*', cors());
 
 app.use('/', indexRouter);
 app.use('/products/', productRouter);
+app.use('/users/', usersRouter);
+
 
 
 
