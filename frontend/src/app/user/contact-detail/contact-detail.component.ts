@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular
 import { Observable, of, throwError, interval  } from 'rxjs';
 import 'rxjs/add/operator/switchMap';
 import { environment } from '../../../environments/environment';
+import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-contact-detail',
@@ -17,30 +19,54 @@ export class ContactDetailComponent implements OnInit {
     email : '',
     phone : ''
   };
-  constructor(private userService: UserService, private http: HttpClient) { }
+  constructor(private userService: UserService, private http: HttpClient,
+    public toastr: ToastrManager,
+    private fb: FormBuilder) { }
   private subscription: Subscription  
   socket:any;
+  sampleForm: FormGroup;
   pollingData: any;
-
+  widgetId:Number = 1;
   ngOnInit() {
+    this.validateForm();
     this.socket = socketIo('http://localhost:9000/');
-    this.socket.on('element-comm',(data) => this.user = data);
+    this.socket.on('element-comm',(data) =>{
+      if (data.action === 'ModalView' && this.widgetId != data.widgetId) {
+        this.toastr.warningToastr('User opened modal page ', 'Warning!');
+        return;
+      }
+      this.user = data
+      if (this.widgetId != data.widgetId) {
+        this.toastr.infoToastr('Some data are loaded.', 'Info!');
+      }
+    });
     this.subscription = this.userService.getCurrentUserObj().subscribe(value => {
       this.user = value;
       console.log("subscribe",this.user);
     });
-    this.pollingData = interval(1000).switchMap(() => this.http.get(environment.apiUrl + '/users')).subscribe((result: any[]) => {
-      console.log("from contact details", result);               
-    });
+    // this.pollingData = interval(1000).switchMap(() => this.http.get(environment.apiUrl + '/users')).subscribe((result: any[]) => {
+    //   console.log("from contact details", result);               
+    // });
   }
 
   ngOnDestroy() {
     this.pollingData.unsubscribe();
    }
 
+   validateForm() {
+    this.sampleForm = this.fb.group({
+       email : ['', Validators.required ],
+       phone: ['', Validators.required ]
+    });
+    if (this.user.name == '' && this.user.address == '') {
+      this.toastr.infoToastr('Widget is new state.', 'Info!');
+    }
+  }
+
   submitModalData(data) {
     this.user['email'] = data['email'];
     this.user['phone'] = data['phone'];
+    this.user['widgetId'] = this.widgetId;
     this.userService.setCurrentUserObj(this.user);
     this.socket.emit("element-comm", this.user);
   }

@@ -3,7 +3,7 @@ import { NgModule, Injector, ComponentFactoryResolver } from '@angular/core';
 import { createCustomElement } from "@angular/elements";
 import { ModalModule } from 'ngb-modal';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { AppComponent } from './app.component';
@@ -15,6 +15,7 @@ import { ProductComponent } from './product/product.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { PersonalDetailComponent } from './user/personal-detail/personal-detail.component';
 import { ContactDetailComponent } from './user/contact-detail/contact-detail.component';
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 
 @NgModule({
@@ -29,8 +30,10 @@ import { ContactDetailComponent } from './user/contact-detail/contact-detail.com
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     ModalModule,
+    ToastrModule.forRoot(),
     NgbModule.forRoot()
   ],
   providers: [],
